@@ -31,13 +31,13 @@ class Login extends React.Component{
             DataHelper.baseURL()+"/o/token/",
             {
                 grant_type: "password",
-                client_id: "MnH8UpvBF3HBapWXnkQJI9xL2OWTmv",
+                client_id: "HQraZkFUyF0ZgQQkGnrRhpMoDYNFEJjG00W85q8y",
                 username: this.state.username,
                 password: this.state.password
             }
             ).then((response) => {
                 const token = response.data;
-                localStorage.setItem('authorization', token.token_type + ' ' + token.access_token);
+                DataHelper.setAuthToken(token)
                 this.props.history.push('/');
             });
     }

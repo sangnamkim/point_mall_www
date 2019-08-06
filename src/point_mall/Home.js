@@ -15,7 +15,7 @@ class Home extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.cateId != prevProps.match.params.cateId) {
+        if (this.props.match.params.cateId !== prevProps.match.params.cateId) {
             this.indexItems();
         }
     }

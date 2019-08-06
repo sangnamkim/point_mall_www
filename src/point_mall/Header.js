@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios'
 import DataHelper from '../DataHelper';
+import { autorun } from 'mobx';
 
 class Header extends React.Component {
     constructor(props) {
@@ -9,8 +10,12 @@ class Header extends React.Component {
         this.state = {
             cates: []
         };
+    
+        const helper = new DataHelper();
+        autorun(() => {
+            console.log('header' + helper.authToken);
+        });
     }
-
     componentDidMount() {
         this.indexCates();
     }
