@@ -3,8 +3,10 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import ItemBox from './ItemBox';
 import DataHelper from '../DataHelper';
+import { inject } from 'mobx-react';
 
 
+@inject('authStore')
 class Cartitems extends React.Component {
     constructor(props) {
         super(props);
@@ -31,24 +33,17 @@ class Cartitems extends React.Component {
 
     purchase = () => {
         const items = [] ;
-        for(let cartItem of this.state.cartItems) {
-           items.push({
-               item_id: cartItem.item.id,
-               count: cartItem.count
-           })
-        }
+        const { authStore } = this.props ;
+
         axios.post(
             DataHelper.baseURL()+'/items/purchase/',
-            {
-                items
-            },
+            {},
             {
                 headers: {
-                    'Authorization': localStorage.getItem('authorization')
+                    'Authorization': authStore.authToken
                 }
             }
         ).then((response) => {
-            localStorage.removeItem('cart_items');
             this.props.history.push('/me/items');
         });
     }
@@ -61,21 +56,22 @@ class Cartitems extends React.Component {
         if (itemsQueue.length < 1) {
             localStorage.setItem('cart_items','[]');
             this.props.history.push('/me/items');
-    } else {
-        const itemId = itemsQueue.shift();
-        axios.post(
-            DataHelper.baseURL()+'/items/' + itemId + '/purchase/',
-            {},
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('authorization')
+        } else {
+            const itemId = itemsQueue.shift();
+            const { authStore } = this.props;
+
+            axios.post(
+                DataHelper.baseURL()+'/items/purchase/',
+                {
+                    headers: {
+                        'Authorization': authStore.authToken
+                    }
                 }
-            }
-        ).then((response) => {
-            this.purchaseNextItem(itemsQueue) ;
-        }) ;
+            ).then((response) => {
+                this.purchaseNextItem(itemsQueue) ;
+            });
+        }
     }
-}
 
 
     render() {

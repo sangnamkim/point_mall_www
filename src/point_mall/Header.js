@@ -3,7 +3,9 @@ import React from 'react';
 import axios from 'axios'
 import DataHelper from '../DataHelper';
 import { observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 
+@inject('authStore')
 @observer
 class Header extends React.Component {
 
@@ -32,10 +34,12 @@ class Header extends React.Component {
 
 
     logout = () => {
-        this.helper.deleteToken();
+        const { authStore } = this.props;
+        authStore.deleteToken();
     }
     
     render() {
+        const { authStore } = this.props;
         const cates = this.state.cates.map((cate) => {
             return (
                 <Link key={cate.id} to={'/cate/' + cate.id}>{cate.title}</Link>
@@ -47,9 +51,11 @@ class Header extends React.Component {
                 {cates}
                 <div className="header-right">
                     <Link to="/cart/items">Cart</Link>
-                    <Link to="/me/items">My Items</Link>
                     {
-                        this.helper.IsLoggedIn ?
+                       authStore.IsLoggedIn && <Link to="/me/items">My Items</Link>
+                    }
+                    {
+                        authStore.IsLoggedIn ?
                             <button onClick={this.logout}>Logout</button> :
                             <Link to="/login">Login</Link>
                     }

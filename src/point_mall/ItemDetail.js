@@ -2,8 +2,10 @@ import React from 'react' ;
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import DataHelper from '../DataHelper';
+import { inject } from 'mobx-react';
 
 
+@inject('authStore')
 class ItemDetail extends React.Component {
 
     constructor(props) {
