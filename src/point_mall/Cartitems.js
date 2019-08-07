@@ -33,32 +33,11 @@ class Cartitems extends React.Component {
             this.props.history.push('/me/items');
         });
     }
-        
 
-
-
-
-    purchaseNextItem(itemsQueue) {
-        if (itemsQueue.length < 1) {
-            localStorage.setItem('cart_items','[]');
-            this.props.history.push('/me/items');
-        } else {
-            const itemId = itemsQueue.shift();
-            const { authStore } = this.props;
-
-            axios.post(
-                DataHelper.baseURL()+'/items/purchase/',
-                {
-                    headers: {
-                        'Authorization': authStore.authToken
-                    }
-                }
-            ).then((response) => {
-                this.purchaseNextItem(itemsQueue) ;
-            });
-        }
+    clearItems = () => {
+        const { itemStore } = this.props;
+        itemStore.clearCartItems() ;
     }
-
 
     render() {
         const { itemStore } = this.props;
@@ -74,6 +53,7 @@ class Cartitems extends React.Component {
             <div id="container">
                 <h1>장바구니</h1>
                 <button onClick={this.purchase}>구입</button>
+                <button onClick={this.clearItems}>비우기</button>
                 <div id="item-list-container">
                     {items}
                 </div>
