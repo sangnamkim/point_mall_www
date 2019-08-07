@@ -56,7 +56,7 @@ class Header extends React.Component {
                     }
                     {
                         authStore.IsLoggedIn ?
-                            <button onClick={this.logout}>Logout</button> :
+                            <Link to='#' onClick={this.logout}>Logout</Link> :
                             <Link to="/login">Login</Link>
                     }
                 </div>
