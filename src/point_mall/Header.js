@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import DataHelper from '../DataHelper';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react';
 
@@ -8,7 +7,6 @@ import { inject } from 'mobx-react';
 @observer
 class Header extends React.Component {
 
-    helper = new DataHelper();
     constructor(props) {
         super(props);
         this.state = {

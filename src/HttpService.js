@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { reaction } from 'mobx';
-import Login from './point_mall/Login';
 
 
 class HttpService {
