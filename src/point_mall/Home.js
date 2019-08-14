@@ -1,11 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import DataHelper from '../DataHelper';
-
-
-
 import ItemBox from './ItemBox';
+import { inject } from 'mobx-react';
 
+@inject('httpService')
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -25,21 +22,18 @@ class Home extends React.Component {
     }
 
     indexItems() {
-        const cateId = this.props.match.params.cateId;
-        let url = DataHelper.baseURL()+'/items/'
-        if (cateId) {
-            url = DataHelper.baseURL()+'/categorys/'+cateId+'/items/'
-        }
-        axios.get(url)
-            .then((response) => {
-                const items = response.data;
+        console.log(this.props.match.params.cateId);
+        
+        this.props.httpService.indexItems(this.props.match.params.cateId)
+            .then(items => {
                 this.setState({
-                    items: items
-                })
+                    items
+                });
             });
     }
 
     render() {
+        console.log(this.state.items);
         const items = this.state.items.map((item) => {
             return (
                 <ItemBox key ={item.id} item={item}/>

@@ -5,7 +5,7 @@ import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react';
 
 
-@inject('authStore', 'itemStore')
+@inject('httpService', 'itemStore')
 class ItemDetail extends React.Component {
 
     constructor(props) {
@@ -14,35 +14,33 @@ class ItemDetail extends React.Component {
             item : null
         };
     }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.itemId !== prevProps.match.params.itemId)
+        {
+            this.getItem();
+        }
+    }
     
     componentDidMount() {
         this.getItem();
     }
 
     getItem = () => {
-        const itemId = this.props.match.params.itemId ;
-        axios.get(DataHelper.baseURL()+'/items/' + itemId)
-            .then((response) => {
-                const item = response.data;
+        this.props.httpService.getItem(this.props.match.params.itemId)
+            .then(item => {
                 this.setState({
-                    item: item
+                    item
                 })
             });
     }
 
     purchase = () => {
         const itemId = this.state.item.id;
-        const { authStore } = this.props;
-
-        axios.post (
-            DataHelper.baseURL()+'/items/' + itemId + '/purchase/',
-            {},
-            {
-                headers: {
-                    'Authorization': authStore.authToken
-                }
-            }
-        ).then((response) => {
+        console.log(itemId);
+        
+        this.props.httpService.purchaseItem(itemId)
+        .then((response) => {
             this.props.history.push('/me/items')
         });
     }

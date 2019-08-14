@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import axios from 'axios'
 import DataHelper from '../DataHelper';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react';
 
-@inject('authStore', 'itemStore')
+@inject('httpService','authStore', 'itemStore')
 @observer
 class Header extends React.Component {
 
@@ -22,11 +21,10 @@ class Header extends React.Component {
     }
 
     indexCates() {
-        axios.get(DataHelper.baseURL()+'/categorys/')
-            .then((response) => {
-                const cates = response.data;
+        this.props.httpService.indexCates()
+            .then(cates => {
                 this.setState({
-                    cates: cates
+                    cates
                 })
             });
         }
@@ -52,7 +50,9 @@ class Header extends React.Component {
                 <div className="header-right">
                     <Link to="/cart/items">Cart {itemStore.cartItemsCount}</Link>
                     {
-                       authStore.IsLoggedIn && <Link to="/me/items">My Items</Link>
+                       authStore.IsLoggedIn?
+                       <Link to="/me/items">My Items</Link>:
+                            <Link to="/register">Register</Link>
                     }
                     {
                         authStore.IsLoggedIn ?
