@@ -26,7 +26,6 @@ class MyItems extends React.Component {
                     user
                 });
             });
-
     }
 
     indexMyItems = () => {
