@@ -84,7 +84,7 @@ class HttpService {
 
     indexItems(cateId) {
         let URL = '/items/';
-        if (cateId) { URL = '/categorys/ ' + cateId + '/items/' }
+        if (cateId) { URL = '/categorie/ ' + cateId + '/items/' }
 
         return axios.get(URL).then(response => {
             return response.data;
@@ -113,7 +113,14 @@ class HttpService {
             });
     }
     indexCates() {
-        return axios.get('/categorys/')
+        return axios.get('/categorie/')
+            .then(response => {
+                return response.data;
+            });
+    }
+
+    indexTagItems(tag) {
+        return axios.get('/tags/' + tag + '/items/')
             .then(response => {
                 return response.data;
             });

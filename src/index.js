@@ -13,6 +13,7 @@ const rootStore = new RootStore() ;
 ReactDOM.render(
     <Router history= {rootStore.history}>
         <Provider 
+            history={rootStore.history}
             authStore={rootStore.authStore}
             itemStore={rootStore.itemStore}
             httpService={rootStore.httpService}>

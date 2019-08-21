@@ -11,6 +11,7 @@ import MyItems from "./point_mall/MyItems";
 import Cartitems from './point_mall/Cartitems';
 import PromiseTest from './promise/PromiseTest';
 import Register from './point_mall/Register';
+import TagItems from './point_mall/TagItems';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route exact path="/me/Items" component={MyItems} />
           <Route exact path="/cart/items" component={Cartitems} />
           <Route exact path="/Promise-test" component={PromiseTest} />
+          <Route exact path="/tags/:tag" component={TagItems} />
         </Switch>
         <Footer />
      </div>
